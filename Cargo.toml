@@ -1,0 +1,24 @@
+[package]
+name = "aegir-bot"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+chrono = "0.4.23"
+clap = { version = "4.0.23", features = ["derive", "env"] }
+fern = "0.6.1"
+futures = "0.3.25"
+log = "0.4.17"
+reqwest = { version = "0.11.12", features = [
+    "json",
+    "rustls-tls",
+], default-features = false }
+securefmt = "0.1.4"
+serde = { version = "1.0.147", features = ["derive"] }
+serde_json = "1.0.87"
+tokio = { version = "1.21.2", features = [
+    "full",
+] }
+toml = "0.5.9"
