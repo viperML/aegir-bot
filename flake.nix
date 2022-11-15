@@ -40,6 +40,7 @@
             exclude = [
               (nix-filter.lib.matchExt "nix")
               "flake.lock"
+              (nix-filter.lib.matchExt "yaml")
             ];
           };
           fenixpkgs = fenix.packages.${system};
