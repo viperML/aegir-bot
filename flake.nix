@@ -118,6 +118,8 @@
               config.packages._toolchain_dev
               podman
               skopeo
+              pkg-config
+              openssl
             ];
           };
 
