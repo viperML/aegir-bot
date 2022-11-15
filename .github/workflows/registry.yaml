@@ -13,9 +13,6 @@ env:
 jobs:
   build-push:
     runs-on: ubuntu-latest
-    # strategy:
-    #   matrix:
-    #     platform: [linux/amd64, linux/arm64]
 
     steps:
     - name: Log in to the Container registry
@@ -34,7 +31,7 @@ jobs:
           extra-substituters = https://viperml.cachix.org
           extra-trusted-public-keys = viperml.cachix.org-1:qZhKBMTfmcLL+OG6fj/hzsMEedgKvZVFRRAhq7j8Vh8=
 
-    - name: Login to cachix
+    - name: Log in to cachix
       uses: cachix/cachix-action@master
       with:
         name: viperml
@@ -52,14 +49,6 @@ jobs:
       with:
         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-    # - name: Build and push Docker image
-    #   uses: docker/build-push-action@v3
-    #   with:
-    #     context: .
-    #     platforms: ${{ matrix.platform }}
-    #     push: true
-    #     tags: ${{ steps.meta.outputs.tags }}
-    #     labels: ${{ steps.meta.outputs.labels }}
     - name: Stream image to remote
       run: |
         ./result | docker load
