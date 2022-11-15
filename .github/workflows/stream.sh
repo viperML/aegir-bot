@@ -3,7 +3,7 @@ set -euxo pipefail
 
 backend="docker"
 
-img="$($backend images --format "{{ .Repository }}:{{ .Tag }}" | head -n1)"
+img="$($backend images --format "{{ .Repository }}:{{ .Tag }}" | grep aegir | head -n1)"
 
 $backend tag "$img" "$@"
 
