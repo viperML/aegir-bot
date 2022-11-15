@@ -61,4 +61,7 @@ jobs:
     #     tags: ${{ steps.meta.outputs.tags }}
     #     labels: ${{ steps.meta.outputs.labels }}
     - name: Stream image to remote
-      run: ./result | docker cp - ${{ steps.meta.outputs.tags }}
+      run: |
+        ./result | docker load
+        ./.github/workflows/stream.sh ${{ steps.meta.outputs.tags }}
+        docker push ${{ steps.meta.outputs.tags }}

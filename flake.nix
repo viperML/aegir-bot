@@ -41,6 +41,7 @@
               (nix-filter.lib.matchExt "nix")
               "flake.lock"
               (nix-filter.lib.matchExt "yaml")
+              (nix-filter.lib.matchExt "sh")
             ];
           };
           fenixpkgs = fenix.packages.${system};
