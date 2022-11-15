@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euxo pipefail
 
-backend="podman"
+backend="docker"
 
 img="$($backend images --format "{{ .Repository }}:{{ .Tag }}" | head -n1)"
 
