@@ -32,3 +32,9 @@ tokio = { version = "1.21.2", features = [
     "rt-multi-thread",
 ], default-features = false }
 toml = "0.5.9"
+
+[profile.release]
+opt-level = "z"
+strip = "symbols"
+lto = true
+panic = "abort"
