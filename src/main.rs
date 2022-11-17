@@ -15,7 +15,7 @@ use std::{collections::HashMap, error::Error, path::PathBuf};
 
 #[derive(Parser, Debug)]
 struct Args {
-    #[arg(env = "AEGIR_ENV")]
+    #[arg(env = "AEGIR_ENV_PATH")]
     environment: PathBuf,
     #[arg(long, env = "DANBOORU_USERNAME")]
     username: Option<String>,

@@ -44,7 +44,7 @@ job "aegir-bot" {
         data        = <<EOF
           DANBOORU_USERNAME="{{with secret "kv/data/aegir-bot"}}{{.Data.data.DANBOORU_USERNAME}}{{end}}"
           DANBOORU_APIKEY="{{with secret "kv/data/aegir-bot"}}{{.Data.data.DANBOORU_APIKEY}}{{end}}"
-          AEGIR_ENV=secrets/env.toml
+          AEGIR_ENV_PATH=secrets/aegir_env.toml
         EOF
         env         = true
         destination = "secrets/login.env"
@@ -52,9 +52,9 @@ job "aegir-bot" {
 
       template {
         data = <<EOF
-          {{with secret "kv/data/aegir-bot"}}{{.Data.data.ENV}}{{end}}
+          {{with secret "kv/data/aegir-bot"}}{{.Data.data.AEGIR_ENV}}{{end}}
         EOF
-        destination = "secrets/env.toml"
+        destination = "secrets/aegir_env.toml"
       }
 
       config {
