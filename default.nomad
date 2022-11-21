@@ -58,7 +58,7 @@ job "aegir-bot" {
       }
 
       config {
-        nix_flake_ref = "github:viperML/aegir-bot/${var.rev}#debug"
+        nix_flake_ref = "github:viperML/aegir-bot/${var.rev}#default"
         nix_flake_sha = var.narHash
         entrypoint = [
           "bin/aegir-bot",
