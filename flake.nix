@@ -99,7 +99,7 @@
             };
 
           debug = pkgs.writeShellApplication {
-            name = "aegir-bot-debug";
+            name = "aegir-bot";
             runtimeInputs = [
               config.packages.default
               pkgs.coreutils
