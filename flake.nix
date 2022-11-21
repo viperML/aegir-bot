@@ -13,13 +13,13 @@
     };
   };
 
-  outputs = {
+  outputs = inputs @ {
     self,
     nixpkgs,
     flake-parts,
-    nix-filter,
     fenix,
     nix2container,
+    ...
   }:
     flake-parts.lib.mkFlake {inherit self;} {
       systems = [
@@ -35,13 +35,12 @@
         ...
       }: {
         packages = let
-          src = nix-filter.lib {
+          src = inputs.nix-filter.lib {
             root = ./.;
-            exclude = [
-              (nix-filter.lib.matchExt "nix")
-              "flake.lock"
-              (nix-filter.lib.matchExt "yaml")
-              (nix-filter.lib.matchExt "sh")
+            include = [
+              (inputs.nix-filter.lib.inDirectory "src")
+              "Cargo.toml"
+              "Cargo.lock"
             ];
           };
           fenixpkgs = fenix.packages.${system};
@@ -105,8 +104,8 @@
               pkgs.coreutils
             ];
             text = ''
-              printenv AEGIR_ENV
-              cat "$AEGIR_ENV"
+              printenv AEGIR_ENV_PATH
+              cat "$AEGIR_ENV_PATH"
               # shellcheck disable=SC2068
               aegir-bot $@
             '';
