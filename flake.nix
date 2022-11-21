@@ -98,6 +98,20 @@
               # CARGO_BUILD_RUSTFLAGS = "-C target-feature=+crt-static";
             };
 
+          debug = pkgs.writeShellApplication {
+            name = "aegir-bot-debug";
+            runtimeInputs = [
+              config.packages.default
+              pkgs.coreutils
+            ];
+            text = ''
+              printenv AEGIR_ENV
+              cat "$AEGIR_ENV"
+              # shellcheck disable=SC2068
+              aegir-bot $@
+            '';
+          };
+
           image-stream = let
             drv = config.packages.default;
           in
