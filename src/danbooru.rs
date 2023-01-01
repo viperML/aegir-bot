@@ -1,4 +1,4 @@
-use log::{info, debug};
+use log::{debug, info};
 use serde::Deserialize;
 
 pub struct DanbooruClient {
@@ -10,7 +10,6 @@ pub struct DanbooruPost {
     pub id: u32,
     pub fav_count: u32,
 }
-
 
 impl DanbooruClient {
     pub fn new(auth: Option<(String, String)>) -> Self {
@@ -25,7 +24,12 @@ impl DanbooruClient {
         limit: &L,
     ) -> anyhow::Result<Vec<DanbooruPost>> {
         let base_url = "https://danbooru.donmai.us/posts.json";
-        let client = reqwest::Client::new();
+
+        // We need a User-Agent
+        // https://danbooru.donmai.us/forum_topics/22822
+        let client = reqwest::ClientBuilder::new()
+            .user_agent("github.com/viperML/aegir-bot")
+            .build()?;
 
         let mut request = client
             .get(base_url)
@@ -34,6 +38,7 @@ impl DanbooruClient {
 
         if let Some(a) = &self.auth {
             info!("Setting auth");
+            debug!("{:?}", a);
             request = request.basic_auth(&a.0, Some(&a.1));
         }
 

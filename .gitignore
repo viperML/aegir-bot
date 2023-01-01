@@ -4,3 +4,4 @@ result*
 environments
 report*
 *.gz
+.env
