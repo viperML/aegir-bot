@@ -8,10 +8,10 @@ use crate::env::AegirEnv;
 use chrono::Datelike;
 use clap::{arg, Parser};
 use discord::DiscordClient;
-use log::{error, info};
+use log::{info};
 
 use securefmt::Debug;
-use std::{collections::HashMap, error::Error, path::PathBuf};
+use std::{collections::HashMap, path::PathBuf};
 
 #[derive(Parser, Debug)]
 struct Args {
@@ -26,7 +26,7 @@ struct Args {
 }
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn Error>> {
+async fn main() -> anyhow::Result<()> {
     setup_logging()?;
 
     let args = Args::parse();
@@ -34,8 +34,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     info!("Environment file: {:?}", args.environment);
 
     if !args.environment.exists() {
-        error!("Environment file doesn't exist!");
-        Err("ERROR")?
+        anyhow::bail!("Environment file doesn't exist!");
     }
 
     let auth = if let (Some(username), Some(api_key)) = (args.username, args.api_key) {
@@ -50,7 +49,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         toml::from_str(&std::fs::read_to_string(args.environment)?)?;
 
     for e in envs.values() {
-        info!("{e:?}");
+        info!("{:?}", e);
     }
 
     let requests: Vec<_> = envs
@@ -63,7 +62,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-async fn handle_env(env: AegirEnv, db_client: &DanbooruClient, dry: bool) -> reqwest::Result<()> {
+async fn handle_env(env: AegirEnv, db_client: &DanbooruClient, dry: bool) -> anyhow::Result<()> {
     let posts = db_client.index(&env.tags, &env.limit).await?;
     let discord_client = DiscordClient::new(&env.webhook);
 
@@ -85,7 +84,7 @@ async fn handle_env(env: AegirEnv, db_client: &DanbooruClient, dry: bool) -> req
     Ok(())
 }
 
-fn setup_logging() -> Result<(), Box<dyn Error>> {
+fn setup_logging() -> anyhow::Result<()> {
     let loglevel = if cfg!(debug_assertions) {
         log::LevelFilter::Debug
     } else {

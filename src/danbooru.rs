@@ -23,7 +23,7 @@ impl DanbooruClient {
         &self,
         tags: &Vec<String>,
         limit: &L,
-    ) -> Result<Vec<DanbooruPost>, reqwest::Error> {
+    ) -> anyhow::Result<Vec<DanbooruPost>> {
         let base_url = "https://danbooru.donmai.us/posts.json";
         let client = reqwest::Client::new();
 
@@ -44,7 +44,7 @@ impl DanbooruClient {
         let result_text = result.text().await?;
         debug!("{:?}", &result_text);
 
-        let decoded = serde_json::from_str::<Vec<DanbooruPost>>(&result_text).unwrap();
+        let decoded = serde_json::from_str::<Vec<DanbooruPost>>(&result_text)?;
 
         Ok(decoded)
     }
